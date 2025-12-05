@@ -12,12 +12,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  webpack: (config) => {
-    // Three.js 최적화
-    config.externals = config.externals || {};
-    config.externals['three'] = 'three';
-    return config;
-  },
 };
 
 export default nextConfig;
