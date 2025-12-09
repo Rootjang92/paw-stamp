@@ -1,6 +1,10 @@
-import { createServerClient, type CookieOptions } from '@supabase/ssr';
+import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 
+/**
+ * 서버 컴포넌트 및 서버 액션용 Supabase 클라이언트
+ * @supabase/ssr v0.8.0+ 최신 API 사용
+ */
 export async function createClient() {
   const cookieStore = await cookies();
 
@@ -9,26 +13,19 @@ export async function createClient() {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value;
+        getAll() {
+          return cookieStore.getAll();
         },
-        set(name: string, value: string, options: CookieOptions) {
+        setAll(cookiesToSet) {
           try {
-            cookieStore.set({ name, value, ...options });
+            cookiesToSet.forEach(({ name, value, options }) => {
+              cookieStore.set(name, value, options);
+            });
           } catch (error) {
+            // 미들웨어나 서버 컴포넌트에서 쿠키 설정이 불가능한 경우
             // 개발 환경에서만 경고 출력
             if (process.env.NODE_ENV === 'development') {
-              console.warn(`[Supabase] 쿠키 설정 실패: ${name}`, error);
-            }
-            // 프로덕션에서는 조용히 무시
-          }
-        },
-        remove(name: string, options: CookieOptions) {
-          try {
-            cookieStore.set({ name, value: '', ...options });
-          } catch (error) {
-            if (process.env.NODE_ENV === 'development') {
-              console.warn(`[Supabase] 쿠키 삭제 실패: ${name}`, error);
+              console.warn('[Supabase] 쿠키 설정 실패:', error);
             }
           }
         },
