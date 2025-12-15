@@ -12,12 +12,12 @@ export async function GET(req: Request) {
 
         if (exchangeError) {
             console.error('Code exchange error:', exchangeError);
-            return NextResponse.redirect(new URL('/auth', req.url));
+            return NextResponse.redirect(new URL('/', req.url));
         }
 
-        return NextResponse.redirect(new URL('/auth', req.url));
+        return NextResponse.redirect(new URL('/map', req.url));
     } catch (error) {
         console.error('Unexpected error:', error);
-        return NextResponse.redirect(new URL('/auth', req.url));
+        return NextResponse.redirect(new URL('/', req.url));
     }
 }
