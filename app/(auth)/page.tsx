@@ -1,21 +1,9 @@
-import { redirect } from 'next/navigation';
 import { MapPin, Image as ImageIcon, Sparkles, Plane, Camera, Map as MapIcon } from 'lucide-react';
 
-import { createClient } from '@/shared/api/supabase/server';
 import { GoogleLoginButton } from '@/features/auth/login/ui';
 import FloatingIcon from '@/shared/ui/FloatingIcon';
 
 export default async function HomePage() {
-  // 서버 사이드에서 인증 상태 확인
-  const supabase = await createClient();
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  if (session) {
-    redirect('/map');
-  }
-
   return (
     <div className="from-primary-50 to-secondary-emerald-50 flex min-h-screen flex-col bg-linear-to-br via-white">
       {/* Main Content - 중앙 정렬 */}
