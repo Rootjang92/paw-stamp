@@ -1,0 +1,311 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "서울특별시",
+        "code": "11",
+        "name_eng": "Seoul"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [126.764, 37.701],
+          [127.184, 37.701],
+          [127.184, 37.429],
+          [126.764, 37.429],
+          [126.764, 37.701]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "부산광역시",
+        "code": "26",
+        "name_eng": "Busan"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [128.886, 35.396],
+          [129.264, 35.396],
+          [129.264, 34.963],
+          [128.886, 34.963],
+          [128.886, 35.396]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "대구광역시",
+        "code": "27",
+        "name_eng": "Daegu"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [128.427, 36.071],
+          [128.775, 36.071],
+          [128.775, 35.671],
+          [128.427, 35.671],
+          [128.427, 36.071]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "인천광역시",
+        "code": "28",
+        "name_eng": "Incheon"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [126.331, 37.656],
+          [126.881, 37.656],
+          [126.881, 37.256],
+          [126.331, 37.256],
+          [126.331, 37.656]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "광주광역시",
+        "code": "29",
+        "name_eng": "Gwangju"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [126.678, 35.360],
+          [127.028, 35.360],
+          [127.028, 34.959],
+          [126.678, 34.959],
+          [126.678, 35.360]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "대전광역시",
+        "code": "30",
+        "name_eng": "Daejeon"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [127.210, 36.551],
+          [127.559, 36.551],
+          [127.559, 36.150],
+          [127.210, 36.150],
+          [127.210, 36.551]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "울산광역시",
+        "code": "31",
+        "name_eng": "Ulsan"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [129.137, 35.738],
+          [129.486, 35.738],
+          [129.486, 35.338],
+          [129.137, 35.338],
+          [129.137, 35.738]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "세종특별자치시",
+        "code": "36",
+        "name_eng": "Sejong"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [127.115, 36.680],
+          [127.464, 36.680],
+          [127.464, 36.280],
+          [127.115, 36.280],
+          [127.115, 36.680]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "경기도",
+        "code": "41",
+        "name_eng": "Gyeonggi"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [126.470, 38.297],
+          [127.820, 38.297],
+          [127.820, 36.897],
+          [126.470, 36.897],
+          [126.470, 38.297]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "강원특별자치도",
+        "code": "51",
+        "name_eng": "Gangwon"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [127.320, 38.612],
+          [129.120, 38.612],
+          [129.120, 37.022],
+          [127.320, 37.022],
+          [127.320, 38.612]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "충청북도",
+        "code": "43",
+        "name_eng": "Chungbuk"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [127.200, 37.300],
+          [128.400, 37.300],
+          [128.400, 36.100],
+          [127.200, 36.100],
+          [127.200, 37.300]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "충청남도",
+        "code": "44",
+        "name_eng": "Chungnam"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [125.900, 37.138],
+          [127.500, 37.138],
+          [127.500, 35.898],
+          [125.900, 35.898],
+          [125.900, 37.138]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "전북특별자치도",
+        "code": "52",
+        "name_eng": "Jeonbuk"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [126.453, 36.335],
+          [127.853, 36.335],
+          [127.853, 34.971],
+          [126.453, 34.971],
+          [126.453, 36.335]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "전라남도",
+        "code": "46",
+        "name_eng": "Jeonnam"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [125.900, 35.468],
+          [127.700, 35.468],
+          [127.700, 34.268],
+          [125.900, 34.268],
+          [125.900, 35.468]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "경상북도",
+        "code": "47",
+        "name_eng": "Gyeongbuk"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [128.000, 37.492],
+          [129.600, 37.492],
+          [129.600, 35.492],
+          [128.000, 35.492],
+          [128.000, 37.492]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "경상남도",
+        "code": "48",
+        "name_eng": "Gyeongnam"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [127.600, 35.861],
+          [129.300, 35.861],
+          [129.300, 34.661],
+          [127.600, 34.661],
+          [127.600, 35.861]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "제주특별자치도",
+        "code": "50",
+        "name_eng": "Jeju"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [126.163, 33.589],
+          [126.933, 33.589],
+          [126.933, 33.189],
+          [126.163, 33.189],
+          [126.163, 33.589]
+        ]]
+      }
+    }
+  ]
+}
