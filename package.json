@@ -8,7 +8,10 @@
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "fetch-boundaries": "node scripts/fetch-sgis-boundaries.mjs && python3 scripts/convert_districts.py",
+    "fetch-only": "node scripts/fetch-sgis-boundaries.mjs",
+    "convert-only": "python3 scripts/convert_districts.py"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",
@@ -34,7 +37,9 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/react-simple-maps": "^3.0.6",
     "@types/three": "^0.181.0",
+    "dotenv": "^17.2.3",
     "eslint": "^9",
     "eslint-config-next": "16.0.10",
     "prettier": "^3.7.4",
