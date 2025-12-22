@@ -101,163 +101,143 @@ export function DistrictModal({
   }, [onClose]);
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
-      onClick={onClose}
-    >
-      <div
-        className="w-full max-w-3xl max-h-[90vh] overflow-auto rounded-lg bg-white shadow-2xl dark:bg-zinc-900"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* 헤더 */}
-        <div className="flex items-center justify-between border-b border-zinc-200 p-6 dark:border-zinc-800">
-          <div>
-            <h2 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">{provinceName}</h2>
-            <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">시/군/구 선택</p>
-          </div>
-          <button
-            onClick={onClose}
-            className="rounded-lg p-2 transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-800"
-            aria-label="닫기"
-          >
-            <X className="h-6 w-6 text-zinc-600 dark:text-zinc-400" />
-          </button>
+    <div className="flex h-full w-full flex-col overflow-hidden">
+      {/* 헤더 */}
+      <div className="flex items-center justify-between border-b border-zinc-200 p-4 dark:border-zinc-800">
+        <div>
+          <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">{provinceName}</h2>
+          <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">시/군/구 선택</p>
         </div>
+        <button
+          onClick={onClose}
+          className="rounded-lg p-2 transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-800"
+          aria-label="닫기"
+        >
+          <X className="h-5 w-5 text-zinc-600 dark:text-zinc-400" />
+        </button>
+      </div>
 
-        {/* 본문 */}
-        <div className="p-6">
-          {loading && (
-            <div className="flex h-96 items-center justify-center">
-              <div className="text-center">
-                <div className="border-primary-600 mb-4 inline-block h-12 w-12 animate-spin rounded-full border-4 border-t-transparent"></div>
-                <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                  지도 데이터를 불러오는 중...
-                </p>
+      {/* 본문 */}
+      <div className="flex-1 overflow-y-auto p-4">
+        {loading && (
+          <div className="flex items-center justify-center py-12">
+            <div className="text-center">
+              <div className="border-primary-600 mb-4 inline-block h-8 w-8 animate-spin rounded-full border-4 border-t-transparent"></div>
+              <p className="text-xs text-zinc-600 dark:text-zinc-400">
+                지도 데이터를 불러오는 중...
+              </p>
+            </div>
+          </div>
+        )}
+
+        {error && (
+          <div className="flex items-center justify-center py-12">
+            <div className="text-center">
+              <p className="mb-2 text-sm font-semibold text-red-600">
+                데이터를 불러올 수 없습니다
+              </p>
+              <p className="text-xs text-zinc-600 dark:text-zinc-400">{error}</p>
+            </div>
+          </div>
+        )}
+
+        {!loading && !error && geoData && (
+          <>
+            {/* 지도 */}
+            <div className="mb-4 aspect-square overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-950">
+              <ComposableMap
+                projection="geoMercator"
+                projectionConfig={{
+                  center: mapConfig.center,
+                  scale: mapConfig.scale,
+                }}
+                width={800}
+                height={600}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                }}
+              >
+                <Geographies geography={geoData}>
+                  {({ geographies }) =>
+                    geographies.map((geo) => {
+                      const districtCode = geo.properties.adm_cd;
+                      const isVisited = visitedDistricts.includes(districtCode);
+
+                      return (
+                        <Geography
+                          key={districtCode}
+                          geography={geo}
+                          fill={isVisited ? '#0891B2' : '#E5E7EB'}
+                          stroke="#FFFFFF"
+                          strokeWidth={0.5}
+                          style={{
+                            default: { outline: 'none' },
+                            hover: {
+                              fill: isVisited ? '#0E7490' : '#D1D5DB',
+                              outline: 'none',
+                              cursor: 'pointer',
+                            },
+                            pressed: { fill: '#155E75', outline: 'none' },
+                          }}
+                          onClick={() => onDistrictClick?.(districtCode)}
+                        />
+                      );
+                    })
+                  }
+                </Geographies>
+              </ComposableMap>
+            </div>
+
+            {/* 시/군/구 목록 */}
+            <div>
+              <h3 className="mb-2 text-xs font-semibold text-zinc-900 dark:text-zinc-100">
+                시/군/구 목록 ({geoData.features.length}개)
+              </h3>
+              <div className="grid grid-cols-2 gap-2">
+                {geoData.features.map((feature) => {
+                  const code = feature.properties.adm_cd;
+                  const name = feature.properties.adm_nm;
+                  const isVisited = visitedDistricts.includes(code);
+
+                  return (
+                    <button
+                      key={code}
+                      onClick={() => onDistrictClick?.(code)}
+                      className={`rounded-lg border px-2 py-1.5 text-left text-xs transition-colors ${
+                        isVisited
+                          ? 'border-primary-600 bg-primary-50 text-primary-900 dark:bg-primary-950 dark:text-primary-100'
+                          : 'border-zinc-200 bg-white text-zinc-900 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:bg-zinc-800'
+                      }`}
+                    >
+                      <div className="truncate font-medium">{name}</div>
+                      {isVisited && (
+                        <div className="text-primary-600 dark:text-primary-400 text-[10px]">
+                          ✓ 방문함
+                        </div>
+                      )}
+                    </button>
+                  );
+                })}
               </div>
             </div>
-          )}
+          </>
+        )}
+      </div>
 
-          {error && (
-            <div className="flex h-96 items-center justify-center">
-              <div className="text-center">
-                <p className="mb-2 text-lg font-semibold text-red-600">
-                  데이터를 불러올 수 없습니다
-                </p>
-                <p className="text-sm text-zinc-600 dark:text-zinc-400">{error}</p>
-                <button
-                  onClick={onClose}
-                  className="mt-4 rounded-lg bg-zinc-200 px-4 py-2 text-sm font-medium hover:bg-zinc-300 dark:bg-zinc-800 dark:hover:bg-zinc-700"
-                >
-                  닫기
-                </button>
-              </div>
-            </div>
-          )}
-
+      {/* 푸터 */}
+      <div className="border-t border-zinc-200 p-3 dark:border-zinc-800">
+        <div className="text-xs text-zinc-600 dark:text-zinc-400">
           {!loading && !error && geoData && (
             <>
-              {/* 지도 */}
-              <div className="mb-6 h-96 overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-950">
-                <ComposableMap
-                  projection="geoMercator"
-                  projectionConfig={{
-                    center: mapConfig.center,
-                    scale: mapConfig.scale,
-                  }}
-                  width={800}
-                  height={600}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                  }}
-                >
-                  <Geographies geography={geoData}>
-                    {({ geographies }) =>
-                      geographies.map((geo) => {
-                        const districtCode = geo.properties.adm_cd;
-                        const isVisited = visitedDistricts.includes(districtCode);
-
-                        return (
-                          <Geography
-                            key={districtCode}
-                            geography={geo}
-                            fill={isVisited ? '#0891B2' : '#E5E7EB'}
-                            stroke="#FFFFFF"
-                            strokeWidth={0.5}
-                            style={{
-                              default: { outline: 'none' },
-                              hover: {
-                                fill: isVisited ? '#0E7490' : '#D1D5DB',
-                                outline: 'none',
-                                cursor: 'pointer',
-                              },
-                              pressed: { fill: '#155E75', outline: 'none' },
-                            }}
-                            onClick={() => onDistrictClick?.(districtCode)}
-                          />
-                        );
-                      })
-                    }
-                  </Geographies>
-                </ComposableMap>
-              </div>
-
-              {/* 시/군/구 목록 */}
-              <div>
-                <h3 className="mb-3 text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-                  시/군/구 목록 ({geoData.features.length}개)
-                </h3>
-                <div className="grid max-h-48 grid-cols-3 gap-2 overflow-y-auto md:grid-cols-4 lg:grid-cols-5">
-                  {geoData.features.map((feature) => {
-                    const code = feature.properties.adm_cd;
-                    const name = feature.properties.adm_nm;
-                    const isVisited = visitedDistricts.includes(code);
-
-                    return (
-                      <button
-                        key={code}
-                        onClick={() => onDistrictClick?.(code)}
-                        className={`rounded-lg border px-3 py-2 text-left text-sm transition-colors ${
-                          isVisited
-                            ? 'border-primary-600 bg-primary-50 text-primary-900 dark:bg-primary-950 dark:text-primary-100'
-                            : 'border-zinc-200 bg-white text-zinc-900 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:bg-zinc-800'
-                        } `}
-                      >
-                        <div className="truncate font-medium">{name}</div>
-                        {isVisited && (
-                          <div className="text-primary-600 dark:text-primary-400 mt-0.5 text-xs">
-                            ✓ 방문함
-                          </div>
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
+              방문한 지역:{' '}
+              <span className="text-primary-600 font-semibold">
+                {visitedDistricts.filter((code) => code.startsWith(provinceCode)).length}
+              </span>
+              <span className="mx-1">/</span>
+              <span>{geoData.features.length}</span>
             </>
           )}
-        </div>
-
-        {/* 푸터 */}
-        <div className="flex items-center justify-between border-t border-zinc-200 p-6 dark:border-zinc-800">
-          <div className="text-sm text-zinc-600 dark:text-zinc-400">
-            {!loading && !error && geoData && (
-              <>
-                방문한 지역:{' '}
-                <span className="text-primary-600 font-semibold">
-                  {visitedDistricts.filter((code) => code.startsWith(provinceCode)).length}
-                </span>
-                <span className="mx-1">/</span>
-                <span>{geoData.features.length}</span>
-              </>
-            )}
-          </div>
-          <button
-            onClick={onClose}
-            className="rounded-lg bg-zinc-200 px-4 py-2 text-sm font-medium text-zinc-900 transition-colors hover:bg-zinc-300 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700"
-          >
-            닫기
-          </button>
         </div>
       </div>
     </div>
