@@ -2,9 +2,10 @@
 
 import { useState } from 'react';
 import { KoreaMap } from './korea-map';
-import { DistrictModal } from './district-modal';
+import { DistrictPanel } from './district-panel';
 import { MapPin } from 'lucide-react';
 import { getProvinceName } from '@/shared/data/provinces';
+import { AnimatePresence } from 'motion/react';
 
 interface MapContainerProps {
   visitedCities?: string[];
@@ -61,6 +62,8 @@ export function MapContainer({ visitedCities = [], onCityClick }: MapContainerPr
           <KoreaMap
             visitedCities={visitedCities}
             onCityClick={handleProvinceClick}
+            selectedProvinceCode={selectedProvince?.code ?? null}
+            onDistrictClick={handleDistrictClick}
             className="max-h-full max-w-full"
           />
 
@@ -82,28 +85,31 @@ export function MapContainer({ visitedCities = [], onCityClick }: MapContainerPr
 
         {/* 오른쪽 패널 - 선택된 도시 정보 및 시/군/구 선택 */}
         <div className="border-t md:border-t-0 md:border-l border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900 w-full md:w-80 md:shrink-0 lg:w-96 flex flex-col min-h-screen overflow-hidden">
-          {selectedProvince ? (
-            <DistrictModal
-              provinceCode={selectedProvince.code}
-              provinceName={selectedProvince.name}
-              visitedDistricts={visitedCities}
-              onClose={() => setSelectedProvince(null)}
-              onDistrictClick={handleDistrictClick}
-            />
-          ) : (
-            <div className="flex flex-1 items-center justify-center p-8">
-              <div className="text-center">
-                <MapPin className="mx-auto mb-3 h-12 w-12 text-zinc-300 dark:text-zinc-700" />
-                <p className="text-sm font-medium text-zinc-600 dark:text-zinc-400">
-                  지역을 선택해주세요
-                </p>
-                <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-500">
-                  지도에서 시/도를 클릭하면<br />
-                  시/군/구를 선택할 수 있습니다
-                </p>
+          <AnimatePresence mode="wait">
+            {selectedProvince ? (
+              <DistrictPanel
+                key={selectedProvince.code}
+                provinceCode={selectedProvince.code}
+                provinceName={selectedProvince.name}
+                visitedDistricts={visitedCities}
+                onClose={() => setSelectedProvince(null)}
+                onDistrictClick={handleDistrictClick}
+              />
+            ) : (
+              <div key="empty" className="flex flex-1 items-center justify-center p-8">
+                <div className="text-center">
+                  <MapPin className="mx-auto mb-3 h-12 w-12 text-zinc-300 dark:text-zinc-700" />
+                  <p className="text-sm font-medium text-zinc-600 dark:text-zinc-400">
+                    지역을 선택해주세요
+                  </p>
+                  <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-500">
+                    지도에서 시/도를 클릭하면<br />
+                    시/군/구를 선택할 수 있습니다
+                  </p>
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </div>
