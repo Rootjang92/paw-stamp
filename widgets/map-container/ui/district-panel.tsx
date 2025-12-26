@@ -10,7 +10,7 @@ interface DistrictPanelProps {
   provinceName: string;
   visitedDistricts: string[];
   onClose: () => void;
-  onDistrictClick?: (districtCode: string) => void;
+  onDistrictClick?: (districtCode: string, districtName: string) => void;
 }
 
 interface GeoJSON {
@@ -171,7 +171,7 @@ export function DistrictPanel({
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.02, duration: 0.2 }}
-                        onClick={() => onDistrictClick?.(code)}
+                        onClick={() => onDistrictClick?.(code, name)}
                         className={`rounded-lg border px-2 py-1.5 text-left text-xs transition-colors ${
                           isVisited
                             ? 'border-primary-600 bg-primary-50 text-primary-900 dark:bg-primary-950 dark:text-primary-100'

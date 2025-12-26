@@ -11,7 +11,7 @@ interface KoreaMapProps {
   onCityClick?: (cityCode: string) => void;
   className?: string;
   selectedProvinceCode?: string | null;
-  onDistrictClick?: (districtCode: string) => void;
+  onDistrictClick?: (districtCode: string, districtName: string) => void;
 }
 
 interface GeoJSON {
@@ -192,6 +192,7 @@ export function KoreaMap({
                 {({ geographies }) =>
                   geographies.map((geo) => {
                     const districtCode = geo.properties.adm_cd;
+                    const districtName = geo.properties.adm_nm;
                     const isVisited = visitedCities.includes(districtCode);
 
                     return (
@@ -210,7 +211,7 @@ export function KoreaMap({
                           },
                           pressed: { fill: '#155E75', outline: 'none' },
                         }}
-                        onClick={() => onDistrictClick?.(districtCode)}
+                        onClick={() => onDistrictClick?.(districtCode, districtName)}
                       />
                     );
                   })
