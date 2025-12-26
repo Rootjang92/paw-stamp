@@ -6,6 +6,7 @@ import { DistrictPanel } from './district-panel';
 import { MapPin } from 'lucide-react';
 import { getProvinceName } from '@/shared/data/provinces';
 import { AnimatePresence } from 'motion/react';
+import { AddVisitFunnel, type AddVisitFormData } from '@/features/visit/add-visit';
 
 interface MapContainerProps {
   visitedCities?: string[];
@@ -18,6 +19,11 @@ export function MapContainer({ visitedCities = [], onCityClick }: MapContainerPr
     name: string;
   } | null>(null);
 
+  const [selectedDistrict, setSelectedDistrict] = useState<{
+    code: string;
+    name: string;
+  } | null>(null);
+
   const handleProvinceClick = (provinceCode: string) => {
     setSelectedProvince({
       code: provinceCode,
@@ -26,9 +32,20 @@ export function MapContainer({ visitedCities = [], onCityClick }: MapContainerPr
     onCityClick?.(provinceCode);
   };
 
-  const handleDistrictClick = (districtCode: string) => {
-    console.log('District clicked:', districtCode);
-    // 추후 방문 기록 추가 기능 구현
+  const handleDistrictClick = (districtCode: string, districtName: string) => {
+    setSelectedDistrict({
+      code: districtCode,
+      name: districtName,
+    });
+  };
+
+  const handleFunnelSubmit = (data: AddVisitFormData) => {
+    console.log('방문 기록 제출:', data);
+    // TODO: 실제 Supabase에 데이터 저장 로직 구현
+  };
+
+  const handleFunnelClose = () => {
+    setSelectedDistrict(null);
   };
 
   const visitedCount = visitedCities.length;
@@ -112,6 +129,17 @@ export function MapContainer({ visitedCities = [], onCityClick }: MapContainerPr
           </AnimatePresence>
         </div>
       </div>
+
+      {/* 방문 기록 추가 Funnel 모달 */}
+      {selectedDistrict && (
+        <AddVisitFunnel
+          cityCode={selectedDistrict.code}
+          cityName={selectedDistrict.name}
+          isOpen={!!selectedDistrict}
+          onClose={handleFunnelClose}
+          onSubmit={handleFunnelSubmit}
+        />
+      )}
     </div>
   );
 }
